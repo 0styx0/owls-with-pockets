@@ -2,19 +2,53 @@ import  React from 'react';
 import { Form, Control } from 'react-redux-form';
 import { loginUser } from '../login-actions';
 
-class LoginContainer extends React.Component {
+interface State {
+  name: string;
+  password: string;
+}
+
+class LoginContainer extends React.Component<{}, State> {
+
+  constructor(props: any) {
+
+    super(props);
+
+    this.state = {
+      name: '',
+      password: ''
+    }
+
+    this.handleSubmit = this.handleSubmit.bind(this);
+    this.updateUsername = this.updateUsername.bind(this);
+    this.updatePassword = this.updatePassword.bind(this);
+  }
+
   handleSubmit(val:any) {
-    loginUser(val.name, val.password);
-    console.log(val.name);
+    console.log(this.state);
+    loginUser(this.state.name, this.state.password);
+  }
+
+  updateUsername(e: any) {
+
+    this.setState({
+      name: e.target.value
+    });
+  }
+
+  updatePassword(e: any) {
+
+    this.setState({
+      password: e.target.value
+    });
   }
 
   render() {
     return (
-      <Form model="user" onSubmit={(val) => this.handleSubmit(val)}>
+      <Form model="user" onSubmit={this.handleSubmit}>
         <label>UserID</label>
-        <Control.text model=".name" />
+        <input type="text" value={this.state.name} onChange={this.updateUsername} />
         <label>Password</label>
-        <Control.text model=".password" />
+        <input type="password" value={this.state.password} onChange={this.updatePassword} />
         <button>Submit!</button>
       </Form>
     );
