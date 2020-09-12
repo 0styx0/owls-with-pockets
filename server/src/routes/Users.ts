@@ -2,17 +2,30 @@ import { Request, Response, Router } from 'express';
 import { BAD_REQUEST, CREATED, OK } from 'http-status-codes';
 import { ParamsDictionary } from 'express-serve-static-core';
 
-import UserDao from '@daos/User/UserDao.mock';
+import IUser from '../classes/IUser';
+import User from '../classes/User';
 import { paramMissingError } from '@shared/constants';
 
 // Init shared
 const router = Router();
-const userDao = new UserDao();
 
+
+router.post('/login', async (req: Request, res: Response) => {
+    const userInfo = req.body.userInfo as IUser;
+    if (!userInfo) {
+        return res.status(BAD_REQUEST).json({
+            error: paramMissingError,
+        });
+    }
+
+    const user = new User();
+    await user.login(userInfo.username, userInfo.password);
+    return res.status(CREATED).end();
+});
 
 /******************************************************************************
  *                      Get All Users - "GET /api/users/all"
- ******************************************************************************/
+ ******************************************************************************
 
 router.get('/all', async (req: Request, res: Response) => {
     const users = await userDao.getAll();
@@ -22,7 +35,7 @@ router.get('/all', async (req: Request, res: Response) => {
 
 /******************************************************************************
  *                       Add One - "POST /api/users/add"
- ******************************************************************************/
+ ******************************************************************************
 
 router.post('/add', async (req: Request, res: Response) => {
     const { user } = req.body;
@@ -38,7 +51,7 @@ router.post('/add', async (req: Request, res: Response) => {
 
 /******************************************************************************
  *                       Update - "PUT /api/users/update"
- ******************************************************************************/
+ ******************************************************************************
 
 router.put('/update', async (req: Request, res: Response) => {
     const { user } = req.body;
@@ -55,7 +68,7 @@ router.put('/update', async (req: Request, res: Response) => {
 
 /******************************************************************************
  *                    Delete - "DELETE /api/users/delete/:id"
- ******************************************************************************/
+ ******************************************************************************
 
 router.delete('/delete/:id', async (req: Request, res: Response) => {
     const { id } = req.params as ParamsDictionary;

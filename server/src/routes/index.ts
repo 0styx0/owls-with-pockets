@@ -5,7 +5,7 @@ import UserRouter from './Users';
 const router = Router();
 
 // Add sub-routes
-router.use('/users', UserRouter);
+router.use('/user', UserRouter);
 
 // Export the base-router
 export default router;
