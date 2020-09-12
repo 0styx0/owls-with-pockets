@@ -1,4 +1,7 @@
+// This is a test game. The real gameSettings will be different based
+// on which game we're playing.
 const gameSettings = {
+    totalPlayers: 2,
     boardWidth: 3,
     boardHeight: 3,
     gameScript: `
@@ -6,9 +9,9 @@ const gameSettings = {
 Log("Setup!")
 
 function getMyPiece()
-    if PlayerNumber == 0 then
+    if PlayerNumber() == 0 then
         return "white"
-    elseif PlayerNumber == 1 then
+    elseif PlayerNumber() == 1 then
         return "black"
     end
 end
@@ -16,6 +19,7 @@ end
 function placed(x, y)
     if GetPiece(x, y) == null then
         SetPiece(x, y, getMyPiece())
+        EndTurn()
     end
 end
 CallbackPlaced(placed)
@@ -42,41 +46,6 @@ class Grid {
         this.grid[x + y * gameSettings.boardWidth] = piece;
     }
 }
-
-window.onload = function() {
-    let compileVM = new shine.VM();
-    shine.luac.init(compileVM);
-    shine.luac.compile(gameSettings.gameScript, function (err, bc) {
-        if (err) {
-            console.log("ERROR COMPILING SCRIPT", err);
-        }
-        
-        let canvas = document.getElementById("game-canvas");
-        let context = canvas.getContext("2d");
-        let grid = new Grid();
-
-        let scriptCallbacks = {};
-        let vm = new shine.VM({
-            PlayerNumber: 0,
-            Log: function (msg) { console.log(msg); },
-            CallbackPlaced: function (f) { scriptCallbacks.placed = f; },
-            CallbackTestForWin: function (f) { scriptCallbacks.testForWin = f; },
-            GetPiece: function(x, y) { grid.getPiece(x, y); },
-            SetPiece: function(x, y, piece) { grid.setPiece(x, y, piece); }
-        });
-        vm.load(bc);
-
-        const frameTime = 1.0 / 3.0 * 1000.0;
-        setInterval(function() {
-            everyFrame(canvas, context, grid, scriptCallbacks);
-        }, frameTime);
-        canvas.addEventListener("click",
-                                function(event) {
-                                    onClick(event, scriptCallbacks)
-                                },
-                                false);
-    })
-};
 
 function everyFrame(canvas, context, grid, callbacks) {
     // Clear canvas
@@ -121,7 +90,11 @@ function everyFrame(canvas, context, grid, callbacks) {
     }
 }
 
-function onClick(event, callbacks) {
+function onClick(event, gameState, callbacks) {
+    if (gameState.whoseTurn != gameState.playerNumber) {
+        // Can't do anything if it's not your turn.
+        return;
+    }
     if (event.which !== 1) {
         return;
     }
@@ -133,4 +106,56 @@ function onClick(event, callbacks) {
     let x = Math.trunc(absX / colW);
     let y = Math.trunc(absY / rowH);
     callbacks.placed.apply([x, y]);
+}
+
+function afterScriptCompiled(compileError, byteCode) {
+    if (err) {
+        console.log("ERROR COMPILING SCRIPT", err);
+    }
+    
+    let canvas = document.getElementById("game-canvas");
+    let context = canvas.getContext("2d");
+    let grid = new Grid();
+
+    let scriptCallbacks = {};
+    let gameState = {
+        playerNumber: 0, // This is different for all players involved
+        whoseTurn: 0
+    };
+    let vm = new shine.VM({
+        PlayerNumber: function () { return gameState.playerNumber },
+        Log: function (msg) { console.log(msg); },
+        CallbackPlaced: function (f) { scriptCallbacks.placed = f; },
+        CallbackTestForWin: function (f) { scriptCallbacks.testForWin = f; },
+        GetPiece: function(x, y) { grid.getPiece(x, y); },
+        SetPiece: function(x, y, piece) { grid.setPiece(x, y, piece); },
+        EndTurn: function() {
+            gameState.whoseTurn++;
+            gameState.whoseTurn %= gameSettings.totalPlayers;
+            // Send a POST request to the server notifying it that
+            // our turn has ended. Include the new grid state.
+        }
+    });
+    vm.load(bc);
+
+    const frameTime = 1.0 / 3.0 * 1000.0;
+    setInterval(function() {
+        everyFrame(canvas, context, grid, scriptCallbacks);
+    }, frameTime);
+    canvas.addEventListener("click",
+                            function(event) {
+                                onClick(event, gameState, scriptCallbacks)
+                            },
+                            false);
+}
+
+function () {
+    // At this point, we should do a GET request to the server to get
+    // the gameSettings for whatever game we're playing. We should
+    // also do a GET request for our specific game to see which player
+    // we are, whose turn it is, and so on.
+
+    let compileVM = new shine.VM();
+    shine.luac.init(compileVM);
+    shine.luac.compile(gameSettings.gameScript, afterScriptCompiled);
 }
