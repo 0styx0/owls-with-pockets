@@ -9,32 +9,46 @@ import Game from '../classes/Game';
 // Init shared
 const router = Router();
 
-router.get('/', (req: Request, res: Response) => {
+router.get('/', async (req: Request, res: Response) => {
+
+  const gameInfo = req.query as any as {name: string};
+
+  const game = new Game();
+
+  try {
+    const epicGamerData = await game.getGame(gameInfo.name);
+    res.send(epicGamerData);
+
+  } catch (e) {
+    return res.status(BAD_REQUEST).end();
+  }
+
+  return res.status(OK).end();
   res.send('game get');
 });
 
 router.post('/create', async (req: Request, res: Response) => {
 
-    const gameInfo = req.query as any as IGame;
+  const gameInfo = req.query as any as IGame;
 
-    if (!gameInfo) {
-        return res.status(BAD_REQUEST).json({});
-    }
+  if (!gameInfo) {
+    return res.status(BAD_REQUEST).json({});
+  }
 
-    if (!req.session!.user) {
-      console.log('no session user');
-      return res.status(BAD_REQUEST).json({});
-    }
+  if (!req.session!.user) {
+    console.log('no session user');
+    return res.status(BAD_REQUEST).json({});
+  }
 
-    const game = new Game();
+  const game = new Game();
 
-    try {
-      await game.create(gameInfo.name, gameInfo.data, req.session!.user.id);
-    } catch (e) {
-      return res.status(BAD_REQUEST).end();
-    }
+  try {
+    await game.create(gameInfo.name, gameInfo.data, req.session!.user.id);
+  } catch (e) {
+    return res.status(BAD_REQUEST).end();
+  }
 
-    return res.status(CREATED).end();
+  return res.status(CREATED).end();
 });
 
 export default router;

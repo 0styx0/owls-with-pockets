@@ -39,7 +39,6 @@ export default class User {
 
         if (!isCorrectPassword) {
             throw new Error('incorrect password');
-            return false;
         }
 
         this.id = user.id;

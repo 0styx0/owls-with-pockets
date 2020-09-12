@@ -49,10 +49,14 @@ router.post('/login', async (req: Request, res: Response) => {
       console.log(e);
       return res.status(BAD_REQUEST).end();
     }
-    console.log(user);
+
+    if (req.session!.user) {
+      console.log('already logged in');
+    }
 
     req.session!.user = user;
     console.log(user.username + ' logged in');
+    console.log(req.session!.user);
 
     return res.status(OK).end();
 });
