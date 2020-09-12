@@ -1,10 +1,22 @@
-import { connect } from 'react-redux';
-import LoginComponent from './LoginComponent';
+import  React from 'react';
+import { Form, Control } from 'react-redux-form';
 
-const mapStateToProps = (state: any) => {
-  return {};
-};
-const mapDispatchToProps = (dispatch: any) => {
-  return {}
-};
-export const LoginContainer = connect(mapStateToProps, mapDispatchToProps)(LoginComponent);
+class LoginContainer extends React.Component {
+  handleSubmit(val:any) {
+    console.log(val);
+  }
+
+  render() {
+    return (
+      <Form model="user" onSubmit={(val) => this.handleSubmit(val)}>
+        <label>UserID</label>
+        <Control.text model=".name" />
+        <label>Password</label>
+        <Control.text model=".password" />
+        <button>Submit!</button>
+      </Form>
+    );
+  }
+}
+
+export default LoginContainer;

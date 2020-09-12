@@ -1,7 +1,7 @@
 import React from 'react';
 import { Route } from 'react-router';
 import { HomeContainer } from './pages/HomeContainer';
-import { LoginContainer } from './pages/LoginContainer';
+import LoginContainer from './pages/LoginContainer';
 
 export default (
     <Route path="/" component={HomeContainer}>
