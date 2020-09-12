@@ -1,0 +1,69 @@
+Data representing a game type:
+{
+    "name": "Gomoku"
+    "players": 2,
+    "board_width": 15,
+    "board_width": 15,
+    "game_type": "placing" (other option is "moving")
+    "pieces": {
+        "white": {
+            "name": "White Piece",
+            "sprite": "jj2039fusl;;2l3jf09fdl;js" (some base64)
+        },
+        "black": {
+            "name": "Black Piece",
+            "sprite": "jj2039fusl;;2l3jf09fdl;js" (some base64)
+        },
+    },
+    "script": "..."
+}
+
+------------------
+
+A script is a Lua script which has callbacks hooked up to certain events.
+
+Example script for Gomoku:
+
+function setup()
+    -- No setup required
+end
+setFunctionSetup(setup)
+
+function getMyPiece()
+    if PlayerNumber == 0 then
+        return "white"
+    else if PlayerNumber == 1 then
+        return "black"
+    end
+end
+
+function placed(x, y)
+    if GetPiece(x, y) != null then
+        SetPiece(x, y, getMyPiece())
+    end
+end
+setFunctionPlaced(placed)
+
+function testForWin(coord)
+    
+end
+setFunctionTestForWin(testForWin)
+
+------------------
+
+Environment given to Lua VM
+
+env = {
+    // Variables
+    PlayerNumber: 0, // Which player are we?
+    BoardWidth: 15,
+    BoardHeight: 15,
+    // Functions
+    GetPiece(int x, int y) -> string
+    SetPiece(int x, int y, string piece)
+    // Callbacks
+    setFunctionSetup(func),  // Called at beginning of game
+    setFunctionPlaced(func), // Called when a piece is placed
+    setFunctionTestForWin(func), // Called after every turn
+}
+
