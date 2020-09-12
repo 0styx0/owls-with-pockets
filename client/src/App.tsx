@@ -1,6 +1,6 @@
 import React from "react";
 import { BrowserRouter as Router, Link, Route } from "react-router-dom";
-import LoginComponent from './pages/LoginComponent';
+import LoginContainer from './pages/LoginContainer';
 
 function App() {
   return (
@@ -11,7 +11,7 @@ function App() {
             <Link to="/login">Sign In</Link>
           </li>
         </ul>
-        <Route path="/login" component={LoginComponent} />
+        <Route path="/login" component={LoginContainer} />
       </div>
     </Router>
   );
