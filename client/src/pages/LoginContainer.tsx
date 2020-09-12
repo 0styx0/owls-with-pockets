@@ -1,9 +1,11 @@
 import  React from 'react';
 import { Form, Control } from 'react-redux-form';
+import { loginUser } from '../login-actions';
 
 class LoginContainer extends React.Component {
   handleSubmit(val:any) {
-    console.log(val);
+    loginUser(val.name, val.password);
+    console.log(val.name);
   }
 
   render() {

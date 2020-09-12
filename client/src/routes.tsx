@@ -5,6 +5,6 @@ import LoginContainer from './pages/LoginContainer';
 
 export default (
     <Route path="/" component={HomeContainer}>
-        <Route path="login" component={LoginContainer} />
+        <Route path="/login" component={LoginContainer} />
     </Route>
 );
