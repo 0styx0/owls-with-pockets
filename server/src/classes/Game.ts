@@ -1,4 +1,5 @@
 import connection from '../database/connection';
+import IGame from './IGame';
 
 export default class Game {
 
@@ -16,5 +17,28 @@ export default class Game {
             creationQuery,
             [name, data, creatorId]
         );
+    }
+
+    async getGame(name: string) {
+
+        const gameGetterQuery = 'SELECT id, name, data, creator_id FROM games WHERE name = ?';
+
+        const [rows] = await (await connection as any).execute(
+            gameGetterQuery,
+            [name]
+        );
+
+        const game = rows[0] as IGame;
+
+        if (!game) {
+            throw new Error('no game found');
+        }
+
+        this.id = game.id;
+        this.name = game.name;
+        this.data = game.data;
+        // this.created = game.created;
+        this.creatorId = game.creator_id;
+        return game;
     }
 }
