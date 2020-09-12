@@ -27,23 +27,33 @@ router.post('/create', async (req: Request, res: Response) => {
     try {
       await user.create(userInfo);
     } catch (e) {
-      return res.status(400).end();
+      return res.status(BAD_REQUEST).end();
     }
 
-    console.log('here');
     return res.status(CREATED).end();
 });
 
 router.post('/login', async (req: Request, res: Response) => {
-    const userInfo = req.body.userInfo as IUser;
+
+    const userInfo = req.query as any as IUser;
     if (!userInfo) {
         return res.status(BAD_REQUEST).json({
         });
     }
 
     const user = new User();
-    await user.login(userInfo.username, userInfo.password);
-    return res.status(CREATED).end();
+    try {
+      await user.login(userInfo.username, userInfo.password);
+    } catch (e) {
+      console.log(e);
+      return res.status(BAD_REQUEST).end();
+    }
+    console.log(user);
+
+    req.session!.user = user;
+    console.log(user.username + ' logged in');
+
+    return res.status(OK).end();
 });
 
 /******************************************************************************

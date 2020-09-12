@@ -25,18 +25,30 @@ export default class User {
     }
 
     async login(username: string, password: string) {
-        // TODO: login
-        const loginQuery = 'SELECT id, firstname, lastname, password FROM users WHERE username = ?';
 
-        const [rows, fields] = await (connection as any).execute(
+        const loginQuery = 'SELECT id, username, firstname, lastname, password FROM users WHERE username = ?';
+
+        const [rows] = await (await connection as any).execute(
             loginQuery,
             [username]
         );
-        this.firstname = 'bob';
-        this.lastname = 'sam';
-        this.password = 'pass';
-        this.id = 'id';
 
+        const user = rows[0] as IUser;
+
+        const isCorrectPassword = await bcrypt.compare(password, user.password);
+
+        if (!isCorrectPassword) {
+            throw new Error('incorrect password');
+            return false;
+        }
+
+        this.id = user.id;
+        this.username = user.username;
+        this.firstname = user.firstname;
+        this.lastname = user.lastname;
+        this.password = user.password;
+
+        return true;
     }
 }
 
