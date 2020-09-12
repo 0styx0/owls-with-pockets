@@ -1,8 +1,11 @@
 import express, { Request, Response } from 'express';
 import session from 'express-session';
 import routes from './routes/index';
+import bodyParser from 'body-parser';
 const app = express();
 var cors = require('cors');
+
+app.use(bodyParser());
 app.use(cors());
 
 const port = 3000;

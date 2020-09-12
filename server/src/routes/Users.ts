@@ -14,7 +14,7 @@ router.get('/', (req: Request, res: Response) => {
 
 router.post('/create', async (req: Request, res: Response) => {
 
-    const userInfo = req.query as any as IUser;
+    const userInfo = req.body as any as IUser;
 
     console.log(userInfo);
     if (!userInfo) {
@@ -36,7 +36,7 @@ router.post('/create', async (req: Request, res: Response) => {
 
 router.post('/login', async (req: Request, res: Response) => {
 
-    const userInfo = req.query as any as IUser;
+    const userInfo = req.body as any as IUser;
     if (!userInfo) {
         return res.status(BAD_REQUEST).json({
         });
