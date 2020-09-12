@@ -1,16 +1,27 @@
-const mysql = require('mysql');
+const mysql = require('mysql2/promise');
 
-const connection = mysql.createConnection({
-    host: 'localhost',
-    user: 'owls-with-pockets',
-    password: 'owls-with-pockets',
-    database: 'stacks'
-});
+async function con() {
 
-connection.connect(function(err) {
-  if (err) {
-    return console.error('error: ' + err.message);
-  }
+  const connection = await mysql.createConnection({
+      host: 'localhost',
+      user: 'owls-with-pockets',
+      password: 'owls-with-pockets',
+      database: 'stacks'
+  });
 
-  console.log('Connected to the MySQL server.');
-});
+  // await connection.execute('INSERT INTO users (username, firstname, lastname, password) VALUES(?, ?, ?, ?)', ['hi', 'no', 'yes', 'yass']);
+
+  return await connection;
+
+  // await connection.connect(function(err) {
+  //   if (err) {
+  //     return console.error('error: ' + err.message);
+  //   }
+
+  //   console.log('Connected to the MySQL server.');
+  // });
+
+  // return await connection;
+}
+
+export default con();

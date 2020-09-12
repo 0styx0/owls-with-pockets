@@ -1,20 +1,43 @@
 import { Request, Response, Router } from 'express';
 import { BAD_REQUEST, CREATED, OK } from 'http-status-codes';
-import { ParamsDictionary } from 'express-serve-static-core';
 
 import IUser from '../classes/IUser';
 import User from '../classes/User';
-import { paramMissingError } from '@shared/constants';
 
 // Init shared
 const router = Router();
 
 
+router.get('/', (req: Request, res: Response) => {
+  res.send('users get');
+});
+
+router.post('/create', async (req: Request, res: Response) => {
+
+    const userInfo = req.query as any as IUser;
+
+    console.log(userInfo);
+    if (!userInfo) {
+        return res.status(BAD_REQUEST).json({
+        });
+    }
+
+    const user = new User();
+
+    try {
+      await user.create(userInfo);
+    } catch (e) {
+      return res.status(400).end();
+    }
+
+    console.log('here');
+    return res.status(CREATED).end();
+});
+
 router.post('/login', async (req: Request, res: Response) => {
     const userInfo = req.body.userInfo as IUser;
     if (!userInfo) {
         return res.status(BAD_REQUEST).json({
-            error: paramMissingError,
         });
     }
 
