@@ -2,6 +2,9 @@ import express, { Request, Response } from 'express';
 import session from 'express-session';
 import routes from './routes/index';
 const app = express();
+var cors = require('cors');
+app.use(cors());
+
 const port = 3000;
 
 app.use(session({
