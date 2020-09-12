@@ -11,6 +11,7 @@ app.use(session({
 
 app.get('/', (req: Request, res: Response) => {
   res.send('Hello World!');
+
 });
 
 app.use(routes);

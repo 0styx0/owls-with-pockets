@@ -31,6 +31,7 @@ router.post('/create', async (req: Request, res: Response) => {
     }
 
     return res.status(CREATED).end();
+
 });
 
 router.post('/login', async (req: Request, res: Response) => {
