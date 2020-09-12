@@ -3,7 +3,7 @@ import { Form, Control } from 'react-redux-form';
 import { loginUser } from '../login-actions';
 
 interface State {
-  name: string;
+  username: string;
   password: string;
 }
 
@@ -14,7 +14,7 @@ class LoginContainer extends React.Component<{}, State> {
     super(props);
 
     this.state = {
-      name: '',
+      username: '',
       password: ''
     }
 
@@ -25,13 +25,13 @@ class LoginContainer extends React.Component<{}, State> {
 
   handleSubmit(val:any) {
     console.log(this.state);
-    loginUser(this.state.name, this.state.password);
+    loginUser(this.state.username, this.state.password);
   }
 
   updateUsername(e: any) {
 
     this.setState({
-      name: e.target.value
+      username: e.target.value
     });
   }
 
@@ -46,7 +46,7 @@ class LoginContainer extends React.Component<{}, State> {
     return (
       <Form model="user" onSubmit={this.handleSubmit}>
         <label>UserID</label>
-        <input type="text" value={this.state.name} onChange={this.updateUsername} />
+        <input type="text" value={this.state.username} onChange={this.updateUsername} />
         <label>Password</label>
         <input type="password" value={this.state.password} onChange={this.updatePassword} />
         <button>Submit!</button>
