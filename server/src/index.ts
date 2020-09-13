@@ -26,29 +26,36 @@ app.get('/', (req: Request, res: Response) => {
 
 (app as any).ws('/match', async (ws: any, req: Request) => {
 
+  console.log('here we are in match ws');
   ws.on('message', function(msg: any) {
     console.log(msg);
   });
 
 
-  const matchFound = await Match.findMatch('1', req.session!.user.id);
+  try {
 
-  if (matchFound) {
-      console.log('match found');
-      await Match.matchUsers(matchFound.id, req.session!.user.id);
-      ws.send('found match');
-  } else {
+    const matchFound = await Match.findMatch('1', req.session!.user.id);
+    console.log('match found');
+    await Match.matchUsers(matchFound.id, req.session!.user.id);
+    ws.send('found match');
+
+  } catch (e: any) {
+
     console.log('creating waiting match');
-    const waiting = await Match.createWaitingMatch('1', req.session!.user.id);
+    try {
+      await Match.createWaitingMatch('1', req.session!.user.id);
+    } catch (e: any) {
 
-    if (!waiting) {
-      await Match.foundMatch('1', req.session!.user.id);
+      try {
+        await Match.foundMatch('1', req.session!.user.id);
+      } catch (e: any) {
+        ws.send('no matches available');
+      }
       ws.send('found me;)');
     }
-
-    ws.send('waiting');
   }
 
+  ws.send('waiting');
   console.log('in ws');
 });
 
