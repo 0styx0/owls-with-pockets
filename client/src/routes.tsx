@@ -5,6 +5,8 @@ import LoginContainer from './pages/LoginContainer';
 import Signup from './pages/Signup';
 import { FeatureContainer } from './pages/FeatureContainer';
 import { GameList } from './pages/GameList';
+import { GameContainer } from './pages/GameContainer';
+
 
 
 export default (
@@ -13,5 +15,6 @@ export default (
         <Route path="/signup" component={Signup} />
         <Route path="/features" component={FeatureContainer} />
         <Route path="/game-list" component={GameList} />
+        <Route path="/game" component={GameContainer} />
     </Route>
 );

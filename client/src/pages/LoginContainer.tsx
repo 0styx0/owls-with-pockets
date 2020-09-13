@@ -1,6 +1,7 @@
 import  React from 'react';
 import { Form, Control } from 'react-redux-form';
 import { loginUser } from '../login-actions';
+import './signup.css';
 
 interface State {
   username: string;
@@ -44,11 +45,15 @@ class LoginContainer extends React.Component<{}, State> {
 
   render() {
     return (
-      <Form model="user" onSubmit={this.handleSubmit}>
-        <label>UserID</label>
-        <input type="text" value={this.state.username} onChange={this.updateUsername} />
+      <Form className="create-user" model="user" onSubmit={this.handleSubmit}>
+        <div>
+          <label>UserID</label>
+          <input type="text" value={this.state.username} onChange={this.updateUsername} />
+        </div>
+        <div>
         <label>Password</label>
         <input type="password" value={this.state.password} onChange={this.updatePassword} />
+        </div>
         <button>Submit!</button>
       </Form>
     );
