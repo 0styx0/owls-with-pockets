@@ -29,6 +29,8 @@ class Grid {
 function everyFrame(canvas: any, context: any, grid: Grid) {
     // Clear canvas
     context.clearRect(0, 0, canvas.width, canvas.height);
+    context.fillStyle = "#ffffff";
+    context.fillRect(0, 0, 600, 600);
     // Draw grid
     const tileWidth = canvas.width / gameSettings.boardWidth;
     const tileHeight = canvas.height / gameSettings.boardHeight;
@@ -129,7 +131,9 @@ class GameComponent extends React.Component<{}, State> {
             border: "1px solid #000000"
         };
         return (
-            <canvas id={"game-canvas"} width={600} height={600} style={canvasStyle}></canvas>
+            <div id={"game-canvas-container"}>
+                <canvas id={"game-canvas"} width={600} height={600} style={canvasStyle}></canvas>
+            </div>
         );
     }
 }
