@@ -29,3 +29,14 @@ CREATE TABLE IF NOT EXISTS `games` (
   `creator_id` INTEGER NOT NULL,
   FOREIGN KEY (creator_id) REFERENCES users(id)
 );
+
+
+CREATE TABLE IF NOT EXISTS `matches` (
+  `id` INTEGER NOT NULL PRIMARY KEY AUTO_INCREMENT,
+  `game_id` char(30) NOT NULL,
+  `person1` INTEGER,
+  `person2` INTEGER,
+  `matched` BOOLEAN,
+  FOREIGN KEY (person1) REFERENCES users(id),
+  FOREIGN KEY (person2) REFERENCES users(id)
+);
