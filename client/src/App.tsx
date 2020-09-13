@@ -3,7 +3,7 @@ import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 import LoginContainer from './pages/LoginContainer';
 import { FeatureContainer } from './pages/FeatureContainer';
 import { GameList } from './pages/GameList';
-
+import { MatchContainer } from './pages/MatchContainer'
 import { GameContainer } from './pages/GameContainer';
 // import Header from './pages/Header';
 import Signup from './pages/Signup';
@@ -25,7 +25,8 @@ function App() {
               <input type="button" className="button" value="My Profile" / >
               <Link to="/signup"><input type="button" className="button" value="Sign Up" /></Link>
               <Link to="/login"><input type="button" className="button" value="Log In" /></Link>
-              <Link to="/game">Play</Link>
+              <Link to="/game"><input type="button" className="button" value="Play" /></Link>
+              <Link to="/match"><input type="button" className="button" value="Match" /></Link>
             </nav>
           </div>
 
@@ -34,6 +35,7 @@ function App() {
           <Route path="/features" component={FeatureContainer} />
           <Route path="/game-list" component={GameList} />
           <Route path="/game" component={GameContainer} />
+          <Route path="/match" component={MatchContainer} />
       </Router>
     </div>
   );
