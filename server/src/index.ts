@@ -44,7 +44,10 @@ app.get('/', (req: Request, res: Response) => {
 
     console.log('creating waiting match');
     try {
+      console.log('before', req.session);
+      console.log('user', req.session!.user);
       await Match.createWaitingMatch('1', req.session!.user.id);
+      console.log('after');
     } catch (e: any) {
 
       try {

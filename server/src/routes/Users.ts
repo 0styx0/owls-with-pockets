@@ -57,8 +57,9 @@ router.post('/login', async (req: Request, res: Response) => {
     req.session!.user = user;
     console.log(user.username + ' logged in');
     console.log(req.session!.user);
+    res.end(JSON.stringify({ id: user.id }));
 
-    return res.status(OK).end();
+    // return res.status(OK).end();
 });
 
 /******************************************************************************
