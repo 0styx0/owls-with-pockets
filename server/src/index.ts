@@ -29,6 +29,7 @@ app.get('/', (req: Request, res: Response) => {
   console.log('here we are in match ws');
   ws.on('message', function(msg: any) {
     console.log(msg);
+    ws.send(JSON.stringify({matchStatus: 'onmessage called'}));
   });
 
 
@@ -37,7 +38,7 @@ app.get('/', (req: Request, res: Response) => {
     const matchFound = await Match.findMatch('1', req.session!.user.id);
     console.log('match found');
     await Match.matchUsers(matchFound.id, req.session!.user.id);
-    ws.send('found match');
+    ws.send(JSON.stringify({matchStatus: 'found match'}));
 
   } catch (e: any) {
 
@@ -48,14 +49,14 @@ app.get('/', (req: Request, res: Response) => {
 
       try {
         await Match.foundMatch('1', req.session!.user.id);
+        ws.send(JSON.stringify({matchStatus: 'found me;)'}));
       } catch (e: any) {
-        ws.send('no matches available');
+        ws.send(JSON.stringify({matchStatus: 'no matches available'}));
       }
-      ws.send('found me;)');
     }
   }
 
-  ws.send('waiting');
+  ws.send(JSON.stringify({matchStatus: 'end of fn'}));
   console.log('in ws');
 });
 
