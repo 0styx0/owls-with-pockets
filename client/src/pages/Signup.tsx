@@ -4,6 +4,7 @@ import { createUser } from '../create-user-actions';
 
 import { connect } from 'react-redux';
 import HomeComponent from './HomeComponent';
+import './signup.css';
 
 const mapStateToProps = (state: any) => {
   return {};
@@ -71,15 +72,23 @@ class SignupContainer extends React.Component<{}, State> {
 
   render() {
     return (
-      <Form model="user" onSubmit={this.handleSubmit}>
-        <label>UserID</label>
-        <input type="text" value={this.state.username} onChange={this.updateUsername} />
-        <label>First Name</label>
-        <input type="text" value={this.state.firstname} onChange={this.updateFirstname} />
-        <label>Last Name</label>
-        <input type="text" value={this.state.lastname} onChange={this.updateLastname} />
+      <Form className="signup" model="user" onSubmit={this.handleSubmit}>
+        <div>
+          <label>UserID</label>
+          <input type="text" value={this.state.username} onChange={this.updateUsername} />
+        </div>
+        <div>
+          <label>First Name</label>
+          <input type="text" value={this.state.firstname} onChange={this.updateFirstname} />
+        </div>
+        <div>
+          <label>Last Name</label>
+          <input type="text" value={this.state.lastname} onChange={this.updateLastname} />
+        </div>
+        <div>
         <label>Password</label>
         <input type="password" value={this.state.password} onChange={this.updatePassword} />
+        </div>
         <button>Submit!</button>
       </Form>
     );

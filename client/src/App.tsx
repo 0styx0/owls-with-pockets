@@ -10,7 +10,7 @@ function App() {
   return (
     <div>
       <Router>
-          <div>
+          <div className="menu-container">
             <h1>GamePocket</h1>
             <p id="heading">Enjoy some classic board games! How high will you rank?</p>
 
