@@ -10,8 +10,10 @@ function App() {
         <ul>
           <li>
             <Link to="/login">Sign In</Link>
-            <Link to="/signup">Sign Up</Link>
           </li>
+          <li>
+            <Link to="/signup">Sign Up</Link>
+            </li>
         </ul>
         <Route path="/login" component={LoginContainer} />
         <Route path="/signup" component={Signup} />
