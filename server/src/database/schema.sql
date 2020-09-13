@@ -1,9 +1,9 @@
 SET SQL_MODE = "NO_AUTO_VALUE_ON_ZERO";
 SET time_zone = "+00:00";
 
-CREATE DATABASE IF NOT EXISTS stacks
+CREATE DATABASE IF NOT EXISTS stacks;
 
-USE stacks
+USE stacks;
 
 CREATE TABLE IF NOT EXISTS `users` (
   `id` int(11) NOT NULL,

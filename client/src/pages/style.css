@@ -1,0 +1,47 @@
+.menu-bar {
+  text-align: center;
+}
+
+.menu-container {
+  margin-bottom: 3rem;
+}
+
+#heading{
+	font-size: 24px;
+	font-style: italic;
+	text-align: center;
+	font-weight: bold;
+}
+
+h1{
+	font-size: 50px;
+	font-style: italic;
+	font-weight: bold;
+	text-align: center;
+	color: red;
+	text-shadow: 2px 2px gold;
+}	
+
+body{
+	background-color: LightBlue;
+}
+
+.button {
+  background-color: #4CAF50; /* Green */
+  border: none;
+  color: white;
+  padding: 1rem;
+  text-decoration: none;
+  font-size: 1rem;
+  cursor: pointer;
+  border: 1px solid green;
+  transition: all 0.5s;
+}
+
+.button:hover {background-color: #3e8e41}
+
+.button:active {
+  background-color: #3e8e41;
+  box-shadow: 0 5px #666;
+  transform: translateY(4px);
+}

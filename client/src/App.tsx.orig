@@ -1,10 +1,30 @@
 import React from "react";
 import { BrowserRouter as Router, Link, Route } from "react-router-dom";
 import LoginContainer from './pages/LoginContainer';
+<<<<<<< HEAD
 import { GameContainer } from './pages/GameContainer';
+
+function App() {
+  return (
+    <Router>
+      <div>
+        <ul>
+          <li>
+            <Link to="/login">Sign In</Link>
+          </li>
+          <li>
+            <Link to="/game">Play</Link>
+          </li>
+        </ul>
+        <Route path="/login" component={LoginContainer} />
+        <Route path="/game" component={GameContainer} />
+      </div>
+    </Router>
+=======
 // import Header from './pages/Header';
 import Signup from './pages/Signup';
 import "./pages/style.css";
+
 
 function App() {
   return (
@@ -22,15 +42,14 @@ function App() {
               <input type="button" className="button" value="My Profile" / >
               <Link to="/signup"><input type="button" className="button" value="Sign Up" /></Link>
               <Link to="/login"><input type="button" className="button" value="Log In" /></Link>
-              <Link to="/game">Play</Link>
             </nav>
           </div>
 
           <Route path="/login" component={LoginContainer} />
           <Route path="/signup" component={Signup} />
-          <Route path="/game" component={GameContainer} />
       </Router>
     </div>
+>>>>>>> 1d7068d85c63ab00722d6b5eb4907bf13705089f
   );
 }
 
